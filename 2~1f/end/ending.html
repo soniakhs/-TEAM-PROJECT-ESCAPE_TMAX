@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>TmaxTowerEscape</title>
+	<link rel="stylesheet" href="end.css">
+
+	<script type="text/javascript">
+	
+	// change success message
+	var message_div = document.getElementsByClassName("success_message");
+	setTimeout(function() {
+		var ani = document.getElementById("massage");
+		var i = 1;
+		var inter = setInterval(function(){
+			i-= 0.02;
+
+			ani.style.opacity = i;
+
+			if(i < 0) clearInterval(inter);
+		}, 10);
+	}, 3000);
+
+	setTimeout(() => {
+		var btnContainer = document.getElementById("buttonContainer");
+		btnContainer.style.display = 'flex';
+	}, 6500);
+
+	function closeWindow() {
+		window.open('', '_self', '');
+  		window.close();
+	}
+
+	</script>
+</head>
+<body>
+	<audio id="myAudio" autoplay>
+		<source src="end.mp3" type="audio/mpeg">
+	</audio>
+	<div id="main_frame">
+		<div id="massage" class="success_message">
+			탈출 성공!
+		</div>
+		<video autoplay muted id="myVideo" width="1000px" height="560">
+  			<source src="ending.mp4" type="video/mp4">
+		</video>
+		<div id="buttonContainer">
+			<button onclick="window.location.href='../../index.html'">메인 화면</button>
+			<button onclick="closeWindow()">게임 종료</button>
+		</div>
+	</div>
+</body>
+</html>		

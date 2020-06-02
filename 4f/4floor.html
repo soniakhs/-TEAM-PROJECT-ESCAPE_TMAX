@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>TmaxTowerEscape</title>
+	<script type="text/javascript">
+		var open_door = false;
+		var user_lack = false;
+		var item = false;
+		var reading = false;
+		var u_die = false;
+		var chat_num = 1;
+		var num = 0;
+
+		window.onload = function () {
+			chat();
+		}
+
+		function chat(){
+			reading = true;
+			if(chat_num == 1){
+				var chat_dis = document.getElementById("chat").style.display = "block";
+				chat_num = 0;
+				change_img();
+			}
+			else{
+				return 0;
+			}
+		}
+		function change_img(){
+			if(num >= 6){
+				var chat_dis = document.getElementById("chat").style.display = "none";
+				document.getElementById("shunhyun").setAttribute("onclick","saveHim()");
+				
+			}
+			document.getElementById("chat_img").setAttribute("src","chat"+num+".png");
+			num++;
+			
+		
+		}
+
+		var i = 0;
+
+		function getItem() {
+			item = true;
+			alert("칼을 얻었습니다");
+			document.getElementById("knife").style.display = "none";
+
+		}
+
+		function saveHim() {
+			if(item == false) {
+				alert("칼을 구해와");
+			}else {
+				item = false;
+				user_lack = true;
+				open_door = true;
+				alert("성현 선배를 구했다.");
+				document.getElementById("shunhyun").setAttribute("onclick","");
+				document.getElementById("shunhyun").style.display = "none";
+			}
+		}
+
+		function Light() {
+			i++;
+			if(i >= 2) {
+				i = 0;
+				light = false;
+				alert("Light off");
+			}
+			if(i >= 1) {
+				light = true;
+				i++;
+				alert("Ligth on");
+			}
+		}
+
+
+		function openDoor(door) {
+			if(open_door) {
+				door.classList.add('doorOpen');
+				var door = document.getElementById("door");
+				door.volume = 1;
+				door.play();
+
+				setTimeout(function(){
+					alert("문이 열렸습니다.");
+					window.location.href = "floor/4floor_selcted.html";
+				},1000);
+			}else{
+				alert("문이 잠겨있습니다.")
+			}
+		}
+
+	</script>
+	<style type="text/css">
+		* {
+			margin: 0 auto;
+			padding: 0;
+		}
+
+		body {
+			background-color: gray;
+		}
+
+		#main_frame{
+			background-image: url("sl4.png");
+			display: inline-block;
+			position: absolute; 
+			/*margin-top:75px;*/
+			margin-left: -500px;
+			/*margin-bottom: 100px;*/
+			top:50%;
+			transform: translateY(-50%);
+			width:1000px;
+			height:562px;
+			left: 50%;
+			border:1px solid black;
+		}
+
+		#shunhyun{
+		    position: absolute;
+		    width:250px ;
+		    top: 55%;
+		    left: 63%;
+		}
+
+		#knife{
+		    position: absolute;
+		    width: 50px;
+		    top: 70%;
+		    left: 1%;
+		}
+		
+		.door
+		{	
+			background-image: url("door.png");
+			background-size: cover;
+			position:absolute;
+			box-sizing: border-box;
+			border: 1px solid black;
+			top: 37.2%;
+			left: 88%;
+			width: 100px;
+			height: 185px;
+		  	display : inline-block;
+		  	transform-origin: left;
+		  	transition: all 0.5s ease-in-out;
+		  	perspective: 650px;
+		}
+
+		.doorOpen
+		{
+		    transform: perspective(1200px) translateZ(0px) translateX(0px) translateY(0px) rotateY(50deg);
+ 		}
+		#chat{
+			position: absolute;
+			z-index: 9999;
+			display: none;
+		}
+		#chat > img{
+			position: absolute;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="main_frame">
+		<audio id="myAudio" autoplay>
+			<source src="sel.mp3" type="audio/mpeg">
+		</audio>
+		<audio id="door">
+			<source src="door.mp3" type="audio/mp3">
+		</audio>
+		<div id="chat">
+			<img id="chat_img" src="" alt="" onclick="change_img()">
+		</div>
+		<img id="knife"src="craw4.png" onclick="getItem()">
+		<img id="shunhyun" src="npc4.png" onclick="chat()">
+		<div class="backDoor">
+			<div class="door" onmouseup="openDoor(this);">  
+  			</div>
+  		</div>
+	</div>
+</body>
+</html>

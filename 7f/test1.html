@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test1</title>
+	<script type="text/javascript">
+		var open_door = false;
+		var tv_on = true;
+
+		var chat_num = 1;
+		var num = 1;
+
+		function change_img(){
+			num++;
+
+			if(num > 21){
+				var chat_dis = document.getElementById("chat").style.display = "none";		
+			} else {
+				document.getElementById("chat_img").setAttribute("src","startCapture/chat"+ num +".png");
+			}
+
+			//console.log(num);
+		}
+
+		function openDoor(door) {
+
+			if(open_door == false) {
+				var age = prompt("비밀 번호를 입력하세요");
+				if(age == "1004" || age == "천사") {
+					open_door = true;
+				}else {
+					alert("틀렸습니다 !!");
+				}
+			}
+
+			if(open_door) {
+				door.classList.add('doorOpen');
+				var door = document.getElementById("door");
+				door.play();
+				alert("문이 열렸습니다.");
+				setTimeout(function(){
+					window.location.href = "floor/7floor_selcted.html";
+				},1000);
+			}
+		}
+
+		function noteBook() {
+			// var display = document.getElementById('tv').style.display;
+			var noteBook = document.getElementById('ntBook_big');
+			if(tv_on){
+				alert("tv를 클릭해보자.");
+			}else{
+				if(noteBook.style.display=='none'){
+					noteBook.style.display = 'block';
+				}else{
+					noteBook.style.display = 'none';
+				}
+			}
+			
+			
+		}
+
+		function TvShow() {
+			if(tv_on) {
+				alert("Tv를 켰다");
+				document.getElementById('tv').style.display = "block";
+				var noise = document.getElementById("noise");
+				noise.volume  = 0.2;
+				noise.play();
+
+				setTimeout(function(){
+					noise.pause();
+					document.getElementById('tv').style.height = "0";
+					tv_on = false;
+				},4300);
+
+			}else {
+				alert("켜지지 않는다.");
+			}
+			
+		}
+
+	</script>
+	<style type="text/css">
+		* {
+			margin: 0 auto;
+			padding: 0;
+		}
+
+		body {
+			background-color: gray;
+		}
+
+		#main_frame{
+			background-image: url("sl1.jpeg");
+			display: inline-block;
+			position: absolute; 
+			margin-left: -500px;
+			width:1000px;
+			height:560px;
+			left: 50%;
+		    top: 50%;
+		    transform: translateY(-50%);
+			border:1px solid black;
+		}
+
+		.door
+		{	
+			background-image: url("door.png");
+			background-size: cover;
+			position:absolute;
+			box-sizing: border-box;
+			border: 1px solid black;
+			top: 247px;
+		 	width:83px;
+		  	height:140px;
+		  	display : inline-block;
+		  	transform-origin: left;
+		  	transition: all 0.5s ease-in-out;
+		  	perspective: 650px;
+		}
+
+		.doorOpen
+		{
+		    transform: perspective(1200px) translateZ(0px) translateX(0px) translateY(0px) rotateY(50deg);
+ 		}
+
+ 		#ntBook {
+ 			position: absolute;
+ 			top: 418px;
+ 			left: 675px;
+  			display: inline-block;
+ 		}
+
+ 		#ntBook > img {
+			width: 100px; height: 75px;
+ 		}
+
+ 		#tv_container {
+ 			position: relative;
+			margin-right: 28.2%;
+ 			width: 45%;
+ 			height: 45%;
+ 			margin-top: 30px;
+ 		}
+
+ 		#tv_container > button {
+ 			width: 100%;
+ 			height: 100%;
+ 			background-color: #00ff0000;
+ 		}
+
+ 		#tv_container #tv {
+ 			position: absolute;
+ 			display: none;
+ 			width: 100%;
+ 			height: 100%;
+ 			transition: 0.1s;
+ 			overflow: hidden;
+ 		}
+
+ 		#tv_container #tv > img{
+ 			position: absolute;
+ 		}
+
+ 		.tv_on{
+ 			width: 100%;
+ 		}
+ 		.so{
+ 			z-index: 9999;
+ 			width: 30%;
+ 			height: 50%;
+ 			top: 25px;
+ 			left:50%;
+ 			transform: translate(-50%);
+ 		}
+ 		#ntBook_big{
+ 			position: absolute;
+ 			display: none;
+ 			z-index: 9999;
+ 		}
+ 		#chat{
+			position: absolute;
+			z-index: 100000;
+			width: 100%;
+			height: 100%;
+		}
+		#chat > img{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<audio id="myAudio" autoplay>
+		<source src="7floor.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="noise">
+		<source src="tv_noise.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="door">
+		<source src="door.mp3" type="audio/mp3">
+	</audio>
+
+	<div id = "main_frame">
+		
+		<div id="chat">
+			<img id="chat_img" src="startCapture/chat1.png" alt="none" onclick="change_img()">
+		</div>
+
+		<div class="backDoor">
+			<div class="door" onmouseup="openDoor(this);">  
+  			</div>
+  		</div>
+		<div id="ntBook_big" onclick="noteBook()">
+			<img src="pc.png" alt="pc">
+		</div>
+		<div id="ntBook"  onclick="noteBook()">
+			<img src="nt.png" type="button">
+		</div>
+		
+		<div id="tv_container">
+			<div id="tv">
+				<img class="so" src="so.gif" alt="준쌤">
+				<img class="tv_on" src="tv.png" alt="tv">
+			</div>
+			<button name="btn1"onclick="TvShow()">
+			</button> 
+		</div>
+	</div>
+	
+</body>
+</html>

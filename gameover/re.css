@@ -1,0 +1,60 @@
+body{
+	margin:0px;
+	background-color: gray;
+}
+#btn_align{
+	position: absolute;
+	top:230px;
+	left:230px;
+}
+.btn_degin{
+	margin-right: 20px;
+	width: 260px;
+	height: 85px;
+	border-radius: 5px;
+	background-color: #72a1ff;
+	color: white;
+	font-size: 15px;
+}
+
+#main_frame{
+	background-image: url('run.jpg');
+    background-size: cover;
+	display: inline-block;
+	position: absolute; 
+	margin-left: -500px;
+	width:1000px;
+	height:560px;
+	left: 50%;
+	top: 50%;
+	transform: translateY(-50%);
+	border:1px solid black;
+    -webkit-animation:blink 1.5s ease-in-out alternate;
+    -moz-animation:blink 1.5s ease-in-out alternate;
+    animation:blink 1.5s ease-in-out alternate;
+}
+
+@-webkit-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@-moz-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+#qwer{
+	text-align: center;
+
+}
+
+#inbox{
+    display: inline-block;
+    height: 500px;
+    background-color: gray;
+
+}

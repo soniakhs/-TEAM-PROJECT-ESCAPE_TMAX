@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../core.css">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html, body {
+			padding: 0;
+			margin: 0;
+			height: 100vh;
+			max-height: 100vh;
+			overflow: hidden;
+		}
+
+		body {
+			background-color: #fff;
+		}
+
+		.container {
+			margin: 100px auto;
+			height: 100%;
+			text-align: center;
+			background-image: url(smartphone.png);
+			background-repeat: no-repeat;
+			background-position: calc(50% + 50px) 0;
+		}
+
+		#lock {
+			width: 80%;
+			height: calc(100% - 50vh);
+			margin-top: 25vh;
+			padding: 5vh;
+			min-height: 120px;
+		}
+
+		#clock {
+			position: absolute;
+			left: 50%;
+			top: 250px;
+			transform: translateX(-50%);
+		}
+
+		#clock .time {
+			font-size: 40px;
+			font-weight: bold;
+		}
+
+		#clock .date {
+			margin-top: 20px;
+			font-size: 17px;
+		}
+
+		svg.patternlock g.lock-lines line {
+			stroke-width: 1.5;
+			stroke: black;
+			opacity: 0.5;
+		}
+
+		svg.patternlock g.lock-dots circle {
+			stroke: transparent;
+			fill: black;
+			stroke-width: 13.5;
+		}
+
+		svg.patternlock g.lock-actives circle {
+			fill: black;
+			opacity: 0.2;
+			animation: lock-activate-dot .15s 0s ease 1;
+			transform-origin: center;
+		}
+
+		svg.patternlock g.lock-lines line {
+			stroke-width: 1.5;
+			stroke-linecap: round;
+		}
+
+		svg.patternlock.success g.lock-actives circle {
+			fill: green;
+		}
+
+		svg.patternlock.error g.lock-actives circle {
+			fill: red;
+		}
+
+		@keyframes lock-activate-dot {
+			0% { transform: scale(0); }
+			75% { transform: scale(1.1); }
+			100% { transform: scale(1.0); }
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<audio id="ok">
+			<source src="door.mp3" type="audio/mp3">
+		</audio>
+		<audio id="no">
+			<source src="sound_button_wrong.wav" type="audio/wav">
+		</audio>
+		<div id="clock">
+			<div class="time">23:28:30</div>
+			<div class="date">12월 9일 일요일</div>
+		</div>
+		<svg class="patternlock" id="lock" viewBox="0 0 100 100" xmlns="https://www.w3.org/2000/svg">
+			<g class="lock-actives"></g>
+			<g class="lock-lines"></g>
+			<g class="lock-dots">
+				<circle cx="20" cy="20" r="2"/>
+				<circle cx="50" cy="20" r="2"/>
+				<circle cx="80" cy="20" r="2"/>
+
+				<circle cx="20" cy="50" r="2"/>
+				<circle cx="50" cy="50" r="2"/>
+				<circle cx="80" cy="50" r="2"/>
+
+				<circle cx="20" cy="80" r="2"/>
+				<circle cx="50" cy="80" r="2"/>
+				<circle cx="80" cy="80" r="2"/>
+			</g>
+		</svg>
+	</div>
+
+	<!-- <script
+  		src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  		integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  		crossorigin="anonymous"></script> -->
+  	<script src="../api/jquery.js"></script>
+
+	<script src="../api/patternlock.js"></script>
+
+	<script>
+		window.onload = function() {
+			setDate();
+			setTime();
+		};
+
+		Number.prototype.pad = function() {
+			let num = this.valueOf();
+
+			return num < 10 ? '0' + num : num;
+		};
+
+		function setDate() {
+			var d = new Date();
+
+			var arr = ['일', '월', '화', '수', '목', '금', '토'];
+			var month = d.getMonth() + 1;
+			var day = d.getDate();
+			var dayOfWeek = arr[d.getDay()];
+
+			document.getElementsByClassName('date')[0].innerText = month + '월 ' + day + '일 ' + dayOfWeek + '요일'; 
+		}
+
+		function setTime() {
+			var d = new Date();
+
+			var hour = d.getHours().pad();
+			var	minute = d.getMinutes().pad();
+			var	second = d.getSeconds().pad();
+
+			var time = hour + ':' + minute + ':' + second;
+
+			document.getElementsByClassName('time')[0].innerText = time;
+
+			setTimeout(setTime, 1000);
+		}
+
+		var e = document.getElementById('lock');
+		var patternLock_execute = new PatternLock(e, {
+			onPattern:function(pattern) {
+				//console.log(pattern);
+				if(pattern == "1236987") {
+					var door = document.getElementById("ok");
+					door.volume = 1;
+					door.play();
+					this.success();
+					
+
+					setTimeout(function() {
+						alert("암호 해독 성공!");
+					    window.location.href = "end/ending.html";
+					}, 1500);
+
+				} else {
+					var no = document.getElementById("no");
+					no.volume = 1;
+					no.play();
+
+					
+					setTimeout(() => {
+						alert("암호 해독 실패!");
+						this.error();
+						this.clear()
+						window.location.href = "../gameover/gameover.html";
+
+					}, 500);
+
+				}
+			}
+		});
+	</script>
+</body>
+</html>
